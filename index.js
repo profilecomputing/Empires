@@ -45,6 +45,30 @@ function print_names() {
     }
 }
 
+function speak_names() {
+    let users_choice = document.getElementById("users_choice");
+    if (users_choice.value) {
+        addUserChoice();
+    }
+    let new_array = shuffle(users_choices);
+    if ('speechSynthesis' in window) {
+        // Speech Synthesis supported 🎉
+        var msg = new SpeechSynthesisUtterance();
+        for (let i = 0; i < new_array.length; i++) {
+            setTimeout(() => {
+                msg.text = new_array[i];
+                window.speechSynthesis.speak(msg);
+            }, 1000 * i);
+        }
+    }
+    else {
+        // Speech Synthesis Not Supported 😣
+        alert("Sorry, your browser doesn't support text to speech!");
+    }
+}
+
+
+
 
 const add_choice_button = document.getElementById("add_choice");
 add_choice_button.addEventListener("click", addUserChoice);
@@ -58,6 +82,9 @@ clear_button.addEventListener("click", function() {
     results.innerHTML = "";
     users_choices.length = 0;
 });
+
+const speak_names_button = document.getElementById("speak_names");
+speak_names_button.addEventListener("click", speak_names);
 
 
 const users_choice = document.getElementById("users_choice");
